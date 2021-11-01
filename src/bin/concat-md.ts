@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-console, prefer-destructuring */
-import meow, { Options as meowOptions } from "meow";
+import meow, { Result as meowResult, Options as meowOptions } from "meow";
 import { resolve } from "path";
 import { EOL } from "os";
 import fs from "fs";
@@ -10,7 +10,7 @@ import concatMd from "../index";
 const lstat = fs.promises.lstat;
 
 /** @ignore */
-interface Result extends meow.Result<any> {
+interface Result extends meowResult<any> {
   flags: {
     ignore: string;
     toc: boolean;
@@ -81,7 +81,7 @@ function splitPaths(pathsCSV: string): string[] {
 
 /** @ignore */
 async function exec(): Promise<void> {
-  const cli = meow(HELP, { flags: FLAGS, inferType: true }) as Result;
+  const cli = meow(HELP, { flags: FLAGS, inferType: true } as any) as Result;
   const dir = cli.input[0];
 
   if (!dir || dir.length === 0) {

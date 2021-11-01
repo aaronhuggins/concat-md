@@ -2,7 +2,7 @@
 import fs, { readFileSync } from "fs";
 import { join, relative, dirname, basename, extname, sep } from "path";
 import frontMatter from "front-matter";
-import globby from "globby";
+import { globby, globbySync } from "globby";
 import startCase from "lodash.startcase";
 
 /** @ignore */
@@ -137,7 +137,7 @@ class MarkDownConcatenator {
   }
 
   private getFileNamesSync(): string[] {
-    const paths = globby.sync([`**/*.md`], { cwd: this.dir, ignore: arrify(this.ignore) });
+    const paths = globbySync([`**/*.md`], { cwd: this.dir, ignore: arrify(this.ignore) });
     return paths.sort().map((path) => join(this.dir, path));
   }
 
