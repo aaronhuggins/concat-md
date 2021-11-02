@@ -1,7 +1,10 @@
 {
-  "name": "concat-md",
-  "version": "0.3.5",
+  "name": "@aaronhuggins/concat-md",
+  "version": "0.3.8",
   "description": "CLI and API to concatenate markdown files and modify as necessary.",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "concat",
     "concatenate",
@@ -44,45 +47,46 @@
     "prerelease": "npm-run-all -p lint test format",
     "release": "(git diff --quiet && git diff --staged --quiet || git commit -am 'format code') && git checkout master && git pull origin master && git push --follow-tags origin master && npm publish"
   },
-  "repository": "ozum/concat-md",
+  "repository": "aaronhuggins/concat-md",
   "author": "Özüm Eldoğan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ozum/concat-md/issues"
+    "url": "https://github.com/aaronhuggins/concat-md/issues"
   },
-  "homepage": "https://github.com/ozum/concat-md#readme",
+  "homepage": "https://github.com/aaronhuggins/concat-md#readme",
   "devDependencies": {
-    "@types/jest": "^25",
-    "@types/lodash.startcase": "^4.3.6",
+    "@types/jest": "^27",
+    "@types/lodash.startcase": "^4.4.6",
     "@types/meow": "^5.0.0",
-    "@types/node": "^13.13.5",
+    "@types/node": "^16.11.6",
     "@types/prettier": "^2",
-    "@typescript-eslint/eslint-plugin": "^2",
-    "@typescript-eslint/parser": "^2",
-    "eslint": "^7",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "eslint": "^8",
     "eslint-config-airbnb-base": "^14",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jest": "^23",
-    "eslint-plugin-prettier": "^3.1.3",
-    "jest": "^25",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jest": "^25",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27",
     "npm-run-all": "^4.1.5",
     "prettier": "^2",
-    "ts-jest": "^25.5.0",
-    "ts-node-dev": "^1.0.0-pre.44",
+    "ts-jest": "^27.0.7",
+    "ts-node-dev": "^1.1.8",
     "typedoc": "github:TypeStrong/typedoc",
     "typedoc-plugin-example-tag": "^1.0.2",
-    "typedoc-plugin-markdown": "^2.2.17",
-    "typescript": "^3.8.3"
+    "typedoc-plugin-markdown": "^3.11.3",
+    "typescript": "^4.4.4"
   },
   "dependencies": {
-    "doctoc": "^1.4.0",
-    "front-matter": "^3.1.0",
-    "globby": "^11",
+    "@types/globby": "^9.1.0",
+    "doctoc": "^2.1.0",
+    "front-matter": "^4.0.2",
+    "globby": "^11.0.4",
     "install": "^0.13.0",
     "lodash.startcase": "^4.4.0",
-    "meow": "^7.0.0",
-    "npm": "^6.14.5",
+    "meow": "^9.0.0",
+    "npm": "^8.1.2",
     "transform-markdown-links": "^2.0.0"
   }
 }

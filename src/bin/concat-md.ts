@@ -15,6 +15,7 @@ interface Result extends meowResult<any> {
     ignore: string;
     toc: boolean;
     tocLevel: string;
+    tocFlavor: string;
     decreaseTitleLevels: boolean;
     startTitleLevelAt: string;
     joinString: string;
@@ -31,6 +32,7 @@ const FLAGS: meowOptions<any>["flags"] = {
   ignore: { type: "string" },
   toc: { type: "boolean" },
   tocLevel: { type: "string" },
+  tocFlavor: { type: "string" },
   decreaseTitleLevels: { type: "boolean" },
   startTitleLevelAt: { type: "string" },
   joinString: { type: "string" },
@@ -49,6 +51,7 @@ Options
   --ignore <globs csv>              - Glob patterns to exclude in 'dir'.
   --toc                             - Adds table of the contents at the beginning of file.
   --toc-level                       - Limit TOC entries to headings only up to the specified level. Default: 3
+  --toc-flavor                      - Select TOC flavor for compatibility, implies toc; bitbucket, ghost, github, gitlab, nodejs. Default: github
   --decrease-title-levels           - Whether to decrease levels of all titles in markdown file to set them below file and directory title levels.
   --start-title-level-at <level no> - Level to start file and directory levels. Default: 1
   --join-string <string>            - String to be used to join concatenated files. Default: new line
@@ -69,7 +72,7 @@ Examples
 `;
 
 /**
- * Splites CSV string of paths from CLI into array of absolute paths.
+ * Splits CSV string of paths from CLI into array of absolute paths.
  *
  * @param pathsCSV is comma split values of paths to split.
  * @returns array of absolute paths converted from relative to cwd().
@@ -77,6 +80,32 @@ Examples
  */
 function splitPaths(pathsCSV: string): string[] {
   return pathsCSV ? pathsCSV.split(/\s*,\s*/) : [];
+}
+
+/**
+ * Cleans up the flavor provided from CLI, falling back to github flavor.
+ * 
+ * @param tocFlavor is the string provided for modifying genrated toc links.
+ * @returns A string signifying the toc flavor, falling back to github.com.
+ * @ignore
+ */
+function cleanTocFlavor (tocFlavor: string) {
+  switch (tocFlavor) {
+    case "bitbucket":
+    case "bitbucket.org":
+      return "bitbucket.org";
+    case "nodejs":
+    case "nodejs.org":
+      return "nodejs.org";
+    case "gitlab":
+    case "gitlab.com":
+      return "gitlab.com";
+    case "ghost":
+    case "ghost.org":
+      return "ghost.org";
+  }
+
+  return "github.com";
 }
 
 /** @ignore */
@@ -87,6 +116,10 @@ async function exec(): Promise<void> {
   if (!dir || dir.length === 0) {
     console.log(`${HELP}${EOL}Error: Dir is required`);
     return;
+  }
+
+  if (typeof cli.flags.tocFlavor === "string") {
+    cli.flags.tocFlavor = cleanTocFlavor(cli.flags.tocFlavor)
   }
 
   const flags = {

@@ -45,6 +45,10 @@ export interface ConcatOptions {
    */
   tocLevel?: number;
   /**
+   * Select TOC flavor for compatibility.
+   */
+  tocFlavor?: string;
+  /**
    * Glob patterns to exclude in `dir`.
    */
   ignore?: string | string[];
@@ -99,6 +103,7 @@ class MarkDownConcatenator {
   private visitedDirs: Set<string> = new Set();
   private fileTitleIndex: Map<string, { title: string; level: number; md: string }> = new Map();
   private tocLevel: number;
+  private tocFlavor: string;
   private files: File[] = [];
 
   public constructor(
@@ -106,6 +111,7 @@ class MarkDownConcatenator {
     {
       toc = false,
       tocLevel = 3,
+      tocFlavor = "github.com",
       ignore = [],
       decreaseTitleLevels = false,
       startTitleLevelAt = 1,
@@ -118,6 +124,7 @@ class MarkDownConcatenator {
     this.dir = dir;
     this.toc = toc;
     this.tocLevel = tocLevel;
+    this.tocFlavor = tocFlavor;
     this.ignore = ignore;
     this.decreaseTitleLevels = decreaseTitleLevels;
     this.startTitleLevelAt = startTitleLevelAt;
@@ -215,7 +222,7 @@ class MarkDownConcatenator {
     if (!result.includes(TOC_TAG)) {
       result = `${TOC_TAG}\n\n${result}`;
     }
-    const docTocResult = transform(result, "github.com", this.tocLevel, undefined, true);
+    const docTocResult = transform(result, this.tocFlavor, this.tocLevel, undefined, true);
     if (docTocResult.transformed) {
       result = docTocResult.data;
     }
