@@ -119,6 +119,7 @@ async function exec(): Promise<void> {
   }
 
   if (typeof cli.flags.tocFlavor === "string") {
+    cli.flags.toc = true
     cli.flags.tocFlavor = cleanTocFlavor(cli.flags.tocFlavor)
   }
 
